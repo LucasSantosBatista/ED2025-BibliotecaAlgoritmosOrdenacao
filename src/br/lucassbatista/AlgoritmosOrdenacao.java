@@ -1,6 +1,12 @@
 package br.lucassbatista;
 
 public class AlgoritmosOrdenacao {
+	
+	public AlgoritmosOrdenacao() {
+		super();
+	}
+	
+	
 	public int[] bubbleSort(int[] vetor, int tamanho) {
 		// Condição de parada: vetor de 1 posição
 		if (tamanho == 1) {
@@ -71,5 +77,51 @@ public class AlgoritmosOrdenacao {
 				direita++;
 			}
 		}
+	}
+	
+	public int[] quickSort(int[] vetor, int inicio, int fim) {
+		//Condição de parada: vetor de 1 posição
+		if (fim > inicio) {
+			int pivoFixo = dividir(vetor, inicio, fim); //Determina pivo fixo
+			quickSort(vetor, inicio, pivoFixo - 1); //Subvetor da esquerda
+			quickSort(vetor, pivoFixo + 1, fim); //Subvetor da direita
+		}
+		
+		return vetor;
+	}
+	
+	private int dividir(int[] vetor, int inicio, int fim) {
+		//Define pivo e ponteiros
+		int pivo = vetor[inicio];
+		int ponteiroEsquerda = inicio + 1;
+		int ponteiroDireita = fim;
+		
+		//Enquanto ponteiros não cruzarem
+		while(ponteiroEsquerda <= ponteiroDireita) {
+			//Enquanto ponteiros não cruzarem E valor da esquerda for menor que pivo
+			while (ponteiroEsquerda <= ponteiroDireita && vetor[ponteiroEsquerda] <= pivo) {
+				ponteiroEsquerda++;
+			}
+			//Enquanto ponteiros não cruzarem E valor da direita for maior que pivo
+			while (ponteiroDireita >= ponteiroEsquerda && vetor[ponteiroDireita] > pivo) {
+				ponteiroDireita--;
+			}
+			//Caso movimento dos ponteiros cessarem mas não cruzarem
+			if (ponteiroEsquerda < ponteiroDireita) {
+				trocar(vetor, ponteiroEsquerda, ponteiroDireita);
+				ponteiroEsquerda++;
+				ponteiroDireita--;
+			}
+		}
+		
+		//Troca valor com valor no ponteiro da direita, e o retorna para o pivo fixo dos subvetores
+		trocar(vetor, inicio, ponteiroDireita);
+		return ponteiroDireita;
+	}
+	
+	private void trocar(int[] vetor, int i, int j) {
+		int aux = vetor[i];
+		vetor[i] = vetor[j];
+		vetor[j] = aux;
 	}
 }
